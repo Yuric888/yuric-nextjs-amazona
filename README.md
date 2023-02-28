@@ -28,3 +28,10 @@
 - add reducer
 - create store provider
 - handle add to cart button
+
+7. Create Cart Page
+
+- create Cart.tsx
+- use context to get cart items
+- list items in cart items
+- redirect to cart screen after add to cart

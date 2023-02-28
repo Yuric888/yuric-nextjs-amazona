@@ -11,6 +11,7 @@ type StoreProviderProps = {
 };
 export enum CartActionType {
   CART_ADD_ITEM = "ADD",
+  CART_REMOVE_ITEM = "REMOVE",
 }
 type StateCart = {
   cart: { cartItems: CartItem[] };
@@ -40,6 +41,12 @@ function reducer(state: StateCart, action: ActionCart) {
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+      return { ...state, cart: { ...state.cart, cartItems } };
+    }
+    case CartActionType.CART_REMOVE_ITEM: {
+      const cartItems = state.cart.cartItems.filter(
+        (item) => item.slug !== action.payload.slug
+      );
       return { ...state, cart: { ...state.cart, cartItems } };
     }
     default:

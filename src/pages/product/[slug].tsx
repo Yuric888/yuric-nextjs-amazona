@@ -10,6 +10,7 @@ type Props = {};
 
 const ProductScreen = (props: Props) => {
   const { query } = useRouter();
+  const router = useRouter();
   const { slug } = query;
   const product = data.products.find((p) => p.slug === slug);
   const { state, dispatch } = useProductContext();
@@ -27,6 +28,7 @@ const ProductScreen = (props: Props) => {
       type: CartActionType.CART_ADD_ITEM,
       payload: { ...product, quantity },
     });
+    router.push("/cart");
   };
   return (
     <Layout title={product.name}>
