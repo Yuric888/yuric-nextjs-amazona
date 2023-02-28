@@ -30,7 +30,7 @@ const Layout = ({ children, title }: Props) => {
           </nav>
         </header>
         <main className="container m-auto mt-4 px-4">{children}</main>
-        <footer className="flex justify-center items-center h-10 shadow-inner">
+        <footer className="flex justify-center items-center h-10 shadow-inner mt-3">
           <p>Copyright &#169; 2023 Amazona</p>
         </footer>
       </div>

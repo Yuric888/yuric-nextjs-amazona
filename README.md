@@ -10,3 +10,12 @@
 - add data
 - add images
 - render products
+
+5. Create Product Detail
+
+- Create product page
+- Create 3 columns
+- show image in first column
+- show produc info in second column
+- show add to cart action on third column
+- add styles

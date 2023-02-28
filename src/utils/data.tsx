@@ -49,8 +49,8 @@ export const data = {
       description: "Smart looking pants",
     },
     {
-      name: "Fit Shirt",
-      slug: "fit-shirt",
+      name: "Fit Pants",
+      slug: "fit-pants",
       category: "Pants",
       image: "/images/pants2.jpg",
       price: 95,
@@ -61,8 +61,8 @@ export const data = {
       description: "A popular pants",
     },
     {
-      name: "Classic Shirt",
-      slug: "classic-shirt",
+      name: "Classic Pants",
+      slug: "classic-pants",
       category: "Pants",
       image: "/images/pants3.jpg",
       price: 75,
