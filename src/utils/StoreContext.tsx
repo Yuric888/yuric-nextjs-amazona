@@ -1,4 +1,5 @@
 import { CartItem, ProductType } from "@/types/Product.type";
+import Cookies, { CookiesStatic } from "js-cookie";
 import {
   createContext,
   Dispatch,
@@ -27,7 +28,9 @@ type StoreProps = {
 export const Store = createContext({} as StoreProps);
 
 const initialState: StateCart = {
-  cart: { cartItems: [] },
+  cart: Cookies.get("cartItems")
+    ? JSON.parse(Cookies.get("cartItems"))
+    : { cartItems: [] },
 };
 function reducer(state: StateCart, action: ActionCart) {
   switch (action.type) {
@@ -41,12 +44,14 @@ function reducer(state: StateCart, action: ActionCart) {
             item.name === existItem.name ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
+      Cookies.set("cartItems", JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
     case CartActionType.CART_REMOVE_ITEM: {
       const cartItems = state.cart.cartItems.filter(
         (item) => item.slug !== action.payload.slug
       );
+      Cookies.set("cartItems", JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
     default:
