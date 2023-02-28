@@ -35,3 +35,8 @@
 - use context to get cart items
 - list items in cart items
 - redirect to cart screen after add to cart
+
+8. Handle Changing Cart Items
+
+- Add select box for quantity
+- handle select box change
