@@ -1,3 +1,4 @@
+import { useProductContext } from "@/utils/StoreContext";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -7,6 +8,8 @@ type Props = {
 };
 
 const Layout = ({ children, title }: Props) => {
+  const { state } = useProductContext();
+  const { cart } = state;
   return (
     <>
       <Head>
@@ -22,6 +25,11 @@ const Layout = ({ children, title }: Props) => {
             <div>
               <Link href="/cart" className="p-2">
                 Cart
+                {cart.cartItems.length > 0 && (
+                  <span className="ml-1 text-xs font-bold bg-red-600 rounded-full px-2 py-1 text-white">
+                    {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                  </span>
+                )}
               </Link>
               <Link href="/login" className="p-2">
                 Login

@@ -10,3 +10,8 @@ export type ProductType = {
   countInStock: number;
   description: string;
 };
+export type CartQuantity = {
+  quantity: number;
+};
+
+export type CartItem = ProductType & CartQuantity;
