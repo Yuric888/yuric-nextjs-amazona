@@ -45,3 +45,9 @@
 
 - install js-cookie package
 - save and retreive cart items in cookies
+
+10. Create Login Form
+
+- Install react hook form
+- create input boxes
+- add login button

@@ -8,7 +8,7 @@ import {
   useReducer,
 } from "react";
 type StoreProviderProps = {
-  children: ReactNode;
+  children: React.ReactElement | React.ReactElement[];
 };
 export enum CartActionType {
   CART_ADD_ITEM = "ADD",

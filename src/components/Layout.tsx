@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type Props = {
-  children: React.ReactNode | React.ReactNode[];
+  children: React.ReactElement | React.ReactElement[];
   title: string;
 };
 
