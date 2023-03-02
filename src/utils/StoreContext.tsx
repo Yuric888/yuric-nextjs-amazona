@@ -13,6 +13,7 @@ type StoreProviderProps = {
 export enum CartActionType {
   CART_ADD_ITEM = "ADD",
   CART_REMOVE_ITEM = "REMOVE",
+  CART_RESET = "RESET",
 }
 type StateCart = {
   cart: { cartItems: CartItem[] };
@@ -53,6 +54,16 @@ function reducer(state: StateCart, action: ActionCart) {
       );
       Cookies.set("cartItems", JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
+    }
+    case CartActionType.CART_RESET: {
+      return {
+        ...state,
+        cart: {
+          cartItems: [],
+          shippingAddress: { location: {} },
+          paymentMethod: "",
+        },
+      };
     }
     default:
       return state;
