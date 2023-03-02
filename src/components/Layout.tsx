@@ -1,14 +1,18 @@
 import { useProductContext } from "@/utils/StoreContext";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 type Props = {
   children: React.ReactElement | React.ReactElement[];
   title: string;
 };
 
 const Layout = ({ children, title }: Props) => {
+  const { status, data: session } = useSession();
+
   const { state } = useProductContext();
   const { cart } = state;
   const [cartItemsCount, setCartItemsCount] = useState<number>(0);
@@ -22,6 +26,7 @@ const Layout = ({ children, title }: Props) => {
         <title>{title ? title + " - Amazona" : "Amazona"}</title>
         <meta name="description" content="Ecommerce Website" />
       </Head>
+      <ToastContainer position="bottom-center" limit={1} />
       <div className="flex min-h-screen flex-col justify-between">
         <header>
           <nav className="flex h-12 justify-between items-center shadow-md px-4">
@@ -37,9 +42,13 @@ const Layout = ({ children, title }: Props) => {
                   </span>
                 )}
               </Link>
-              <Link href="/login" className="p-2">
-                Login
-              </Link>
+              {status === "loading" ? (
+                "Loading"
+              ) : session?.user ? (
+                session.user.name
+              ) : (
+                <Link href="/login">Login</Link>
+              )}
             </div>
           </nav>
         </header>
