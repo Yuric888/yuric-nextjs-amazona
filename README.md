@@ -77,3 +77,8 @@
 
 - display address fields
 - save address in context
+
+15. Create Payment Method Screen
+
+- display payment methods
+- save payment method in context

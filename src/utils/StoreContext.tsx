@@ -19,9 +19,14 @@ export enum CartActionType {
   CART_REMOVE_ITEM = "REMOVE",
   CART_RESET = "RESET",
   SAVE_SHIPPING_ADDRESS = "SAVE_SHIPPING_ADDRESS",
+  SAVE_PAYMENT_METHOD = "SAVE_PAYMENT_METHOD",
 }
 type StateCart = {
-  cart: { cartItems?: CartItem[]; shippingAddress?: shippingAddressType };
+  cart: {
+    cartItems?: CartItem[];
+    shippingAddress?: shippingAddressType;
+    paymentMethod?: string;
+  };
 };
 type ActionCart = {
   type: CartActionType;
@@ -29,7 +34,11 @@ type ActionCart = {
 };
 type StoreProps = {
   state: {
-    cart: { cartItems?: CartItem[]; shippingAddress?: shippingAddressType };
+    cart: {
+      cartItems?: CartItem[];
+      shippingAddress?: shippingAddressType;
+      paymentMethod?: string;
+    };
   };
   dispatch: Dispatch<ActionCart>;
 };
@@ -38,7 +47,7 @@ export const Store = createContext({} as StoreProps);
 const initialState: StateCart = {
   cart: Cookies.get("cartItems")
     ? JSON.parse(Cookies.get("cartItems"))
-    : { cartItems: [], shippingAddress: {} },
+    : { cartItems: [], shippingAddress: {}, paymentMethod: "" },
 };
 function reducer(state: StateCart, action: ActionCart) {
   switch (action.type) {
@@ -81,6 +90,15 @@ function reducer(state: StateCart, action: ActionCart) {
             ...state.cart.shippingAddress,
             ...action.payload,
           },
+        },
+      };
+    }
+    case CartActionType.SAVE_PAYMENT_METHOD: {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMehod: action.payload,
         },
       };
     }
