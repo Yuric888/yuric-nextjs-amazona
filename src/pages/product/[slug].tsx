@@ -1,28 +1,47 @@
 import Layout from "@/components/Layout";
 import { formatedCurrency } from "@/constant/formatedCurrency";
-import { data } from "@/utils/data";
+import Product from "@/models/Product";
+import { CartItem } from "@/types/Product.type";
+import { connectDB } from "@/utils/connectDB";
 import { CartActionType, Store, useProductContext } from "@/utils/StoreContext";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+type ProductApi = {
+  _id: string;
+  name: string;
+  slug: string;
+  category: string;
+  image: string;
+  price: number;
+  brand: string;
+  rating: number;
+  numberReviews: number;
+  countInStock: number;
+  description: string;
+};
+type Props = {
+  product: CartItem;
+};
 
-type Props = {};
-
-const ProductScreen = (props: Props) => {
-  const { query } = useRouter();
+const ProductScreen = ({ product }: Props) => {
   const router = useRouter();
-  const { slug } = query;
-  const product = data.products.find((p) => p.slug === slug);
   const { state, dispatch } = useProductContext();
   if (!product) {
-    return <div>Product Not Found</div>;
+    return (
+      <Layout title="Product Not Found">
+        <p>Product Not Found</p>
+      </Layout>
+    );
   }
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const quantity = existItem ? existItem.quantity + 1 : 1;
-    if (product.countInStock < quantity) {
-      alert("Sorry. Product is out of Stock");
-      return;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      return toast.error("Sorry. Product is out of stock");
     }
     dispatch({
       type: CartActionType.CART_ADD_ITEM,
@@ -77,3 +96,24 @@ const ProductScreen = (props: Props) => {
 };
 
 export default ProductScreen;
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slug } = params;
+
+  await connectDB();
+  const product: ProductApi = await Product.findOne({ slug }).lean();
+
+  return {
+    props: {
+      product: product ? convertDocToObj(product) : null,
+    },
+  };
+}
+
+function convertDocToObj(doc) {
+  doc._id = doc._id.toString();
+  // doc.createAt = doc.createAt.toString();
+  // doc.updatedAt = doc.updatedAt.toString();
+  return doc;
+}

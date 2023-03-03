@@ -88,3 +88,9 @@
 - insert sample products to mongodb
 - load products from db in home and product screen
 - check product count in stock in add to cart
+
+17. Load Products from MongoDB
+
+- load products in home page fro mongodb
+- load products in product page from mongodb
+- use product api to check count in stock in add to cart

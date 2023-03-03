@@ -1,24 +1,10 @@
 import { formatedCurrency } from "@/constant/formatedCurrency";
 import { ProductType } from "@/types/Product.type";
-import { CartActionType, useProductContext } from "@/utils/StoreContext";
 import Link from "next/link";
 
-type Props = { product: ProductType };
+type Props = { product: ProductType; addToCartHandler: Function };
 
-const ProductItem = ({ product }: Props) => {
-  const { state, dispatch } = useProductContext();
-  const addToCartHandler = () => {
-    const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
-    const quantity = existItem ? existItem.quantity + 1 : 1;
-    if (product.countInStock < quantity) {
-      alert("Sorry. Product is out of Stock");
-      return;
-    }
-    dispatch({
-      type: CartActionType.CART_ADD_ITEM,
-      payload: { ...product, quantity },
-    });
-  };
+const ProductItem = ({ product, addToCartHandler }: Props) => {
   return (
     <div className="card">
       <Link href={`product/${product.slug}`}>
@@ -35,7 +21,7 @@ const ProductItem = ({ product }: Props) => {
         <p className="mb-2">{product.brand}</p>
         <p>{formatedCurrency(product.price)}</p>
         <button
-          onClick={addToCartHandler}
+          onClick={() => addToCartHandler(product)}
           className="primary-button"
           type="button"
         >
