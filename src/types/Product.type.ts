@@ -15,3 +15,11 @@ export type CartQuantity = {
 };
 
 export type CartItem = ProductType & CartQuantity;
+
+export type shippingAddressType = {
+  fullName?: string;
+  address?: string;
+  city?: string;
+  postalCode?: string;
+  country?: string;
+};

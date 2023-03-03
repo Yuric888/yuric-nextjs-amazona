@@ -1,4 +1,8 @@
-import { CartItem, ProductType } from "@/types/Product.type";
+import {
+  CartItem,
+  ProductType,
+  shippingAddressType,
+} from "@/types/Product.type";
 import Cookies, { CookiesStatic } from "js-cookie";
 import {
   createContext,
@@ -14,16 +18,19 @@ export enum CartActionType {
   CART_ADD_ITEM = "ADD",
   CART_REMOVE_ITEM = "REMOVE",
   CART_RESET = "RESET",
+  SAVE_SHIPPING_ADDRESS = "SAVE_SHIPPING_ADDRESS",
 }
 type StateCart = {
-  cart: { cartItems: CartItem[] };
+  cart: { cartItems?: CartItem[]; shippingAddress?: shippingAddressType };
 };
 type ActionCart = {
   type: CartActionType;
-  payload: CartItem;
+  payload: any;
 };
 type StoreProps = {
-  state: { cart: { cartItems: CartItem[] } };
+  state: {
+    cart: { cartItems?: CartItem[]; shippingAddress?: shippingAddressType };
+  };
   dispatch: Dispatch<ActionCart>;
 };
 export const Store = createContext({} as StoreProps);
@@ -31,7 +38,7 @@ export const Store = createContext({} as StoreProps);
 const initialState: StateCart = {
   cart: Cookies.get("cartItems")
     ? JSON.parse(Cookies.get("cartItems"))
-    : { cartItems: [] },
+    : { cartItems: [], shippingAddress: {} },
 };
 function reducer(state: StateCart, action: ActionCart) {
   switch (action.type) {
@@ -60,8 +67,20 @@ function reducer(state: StateCart, action: ActionCart) {
         ...state,
         cart: {
           cartItems: [],
-          shippingAddress: { location: {} },
+          shippingAddress: {},
           paymentMethod: "",
+        },
+      };
+    }
+    case CartActionType.SAVE_SHIPPING_ADDRESS: {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: {
+            ...state.cart.shippingAddress,
+            ...action.payload,
+          },
         },
       };
     }

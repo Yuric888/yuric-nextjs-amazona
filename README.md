@@ -72,3 +72,8 @@
 - check user authentication
 - install headlessui
 - show user menu
+
+14. Create Shipping Screen
+
+- display address fields
+- save address in context
