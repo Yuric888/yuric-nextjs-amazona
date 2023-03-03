@@ -82,3 +82,9 @@
 
 - display payment methods
 - save payment method in context
+
+16. Seed sample products
+
+- insert sample products to mongodb
+- load products from db in home and product screen
+- check product count in stock in add to cart
